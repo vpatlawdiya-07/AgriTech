@@ -1,0 +1,15 @@
+require("dotenv").config();
+
+const app = require("./app");
+
+// Database Connection
+require("./config/db");
+
+// Serial Port Connection
+require("./services/serialReader");
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
