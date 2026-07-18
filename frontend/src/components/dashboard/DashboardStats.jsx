@@ -4,14 +4,12 @@ import {
   Opacity,
   Science,
   WaterDrop,
-  Eco,
+  Spa,
   TrendingUp,
 } from "@mui/icons-material";
 
 import { motion } from "framer-motion";
 import AppCard from "../ui/Card";
-
-const MotionGrid = motion(Grid);
 
 export default function DashboardStats({ sensor }) {
   const stats = [
@@ -46,7 +44,7 @@ export default function DashboardStats({ sensor }) {
     {
       title: "Phosphorus",
       value: sensor?.phosphorus ?? "--",
-      icon: <Eco sx={{ fontSize: 40 }} />,
+      icon: <Spa sx={{ fontSize: 40 }} />,
       color: "#1E88E5",
       status: "Healthy",
     },
@@ -62,19 +60,33 @@ export default function DashboardStats({ sensor }) {
   return (
     <Grid container spacing={3}>
       {stats.map((item, index) => (
-        <Grid item xs={12} sm={6} lg={4} xl={2} key={index}>
-          <MotionGrid
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          lg={4}
+          xl={2}
+          key={item.title}
+        >
+          <motion.div
             initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+            }}
             transition={{
+              duration: 0.4,
               delay: index * 0.1,
             }}
           >
             <AppCard>
               <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
                 <Box>
                   <Typography
@@ -84,13 +96,20 @@ export default function DashboardStats({ sensor }) {
                     {item.title}
                   </Typography>
 
-                  <Typography
-                    variant="h4"
-                    fontWeight="bold"
-                    mt={1}
+                  <motion.div
+                    key={item.value}
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.25 }}
                   >
-                    {item.value}
-                  </Typography>
+                    <Typography
+                      variant="h4"
+                      fontWeight="bold"
+                      mt={1}
+                    >
+                      {item.value}
+                    </Typography>
+                  </motion.div>
 
                   <Chip
                     size="small"
@@ -105,18 +124,18 @@ export default function DashboardStats({ sensor }) {
                     width: 70,
                     height: 70,
                     borderRadius: "18px",
-                    bgcolor: `${item.color}15`,
+                    backgroundColor: `${item.color}20`,
+                    color: item.color,
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    color: item.color,
                   }}
                 >
                   {item.icon}
                 </Box>
               </Box>
             </AppCard>
-          </MotionGrid>
+          </motion.div>
         </Grid>
       ))}
     </Grid>
